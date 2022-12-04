@@ -7,27 +7,25 @@ import wave
 from wave import Wave_read
 
 name1 = []
-name2 = []
 
-path = 'C:/Users/asus/OneDrive - 國立臺北科技大學/鳥類資料/鳥類.txt'
+path = './data/鳥類.txt'
+
 with open(path, 'r', encoding='utf-8') as f:
     for line in f.readlines():
         s = line.split(' ')
         name1.append(s[0])
-        name2.append(s[1])
-print(name1)
-print(name2)
 
 for i in range(0, 3):
     m = 1
     name_1 = str(name1[i])
-    name_2 = str(name2[i]).replace("\n", "")
+    print(name_1)
 
-    path = 'C:/Users/asus/OneDrive - 國立臺北科技大學/鳥類資料' + "/" + name_1
+    path = "./data/audio/" + name_1
     n = len(os.listdir(path))
+
     for j in range(1, n):
-        path1 = 'C:/Users/asus/OneDrive - 國立臺北科技大學/鳥類資料' + "/" + name_1 + "/" + name_1 + '0' + str(j)
-        path2 = 'C:/Users/asus/OneDrive - 國立臺北科技大學/音檔圖片' + "/" + name_1
+        path1 = './data/audio/' + name_1 + "/" + name_1 + str(j)
+        path2 = './data/images/' + name_1
 
         print(name_1 + str(j))
 
@@ -59,7 +57,7 @@ for i in range(0, 3):
                     plt.specgram(data[:, 0], Fs=FS)  # 畫圖
                     plt.ylabel('Frequency [Hz]')
                     plt.xlabel('Time')
-                    plt.savefig(path2 + '//' + name_2 + str(m) + '.png')
+                    plt.savefig(path2 + '/' + name_1 + str(m) + '.png')
                     # plt.show()
                     m += 1
                 except IndexError:

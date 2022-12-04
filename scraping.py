@@ -20,43 +20,45 @@ def catch_audio(i, j, name, path, container):
                 print(name3 + '0' + title + '.mp3' + "下載成功")
 
     except IndexError:
-        print("本頁完成下載")
+        print("本頁下載成功")
         # 如果index裡沒有資料了，就代表載完了全部的音檔
 
 
 def page(i, name):
     try:
-        url = "https://xeno-canto.org/species/" + str(name) + "?pg=" + str(j)  # 透過for迴圈抓取不同頁的資料
-        print(url)
-        response = requests.get(url)
-        soup = BeautifulSoup(response.text, "html.parser")  # 獲取網頁的HTML
-        container = soup.findAll("audio", class_="xc-mini-player")  # 透過audio標籤及class，獲取MP3的檔案路徑
-        catch_audio(i=i, j=j, name=name1, path=path1, container=container)
-    except IndexError:
-        print(str(name) + "完成下載")
+        for j in range(1, 100):
+            url = "https://xeno-canto.org/species/" + str(name) + "?pg=" + str(j)  # 透過for迴圈抓取不同頁的資料
+            print(url)
+            response = requests.get(url)
+            soup = BeautifulSoup(response.text, "html.parser")  # 獲取網頁的HTML
+            container = soup.findAll("audio", class_="xc-mini-player")  # 透過audio標籤及class，獲取MP3的檔案路徑
+            catch_audio(i=i, j=j, name=name1, path=path1, container=container)
+    except:
+        pass
 
 
 name1 = []
 name2 = []
 
-path = 'C:/Users/asus/OneDrive - 國立臺北科技大學/鳥類資料/'
+path = './data/鳥類.txt'
 
-with open(path + '鳥類01.txt', 'r', encoding='utf-8') as f:
+with open(path, 'r', encoding='utf-8') as f:
     for line in f.readlines():
         s = line.split(' ')
         name1.append(s[0])
         name2.append(s[1])
-# print(name1)
-# print(name2)
 
 for i in range(0, 4):
-    name3 = str(name1[i])
-    path1 = path + name3 + '//'
+    name_1 = str(name1[i])
+    path1 = './data/audio/' + name_1 + '/'
     if os.path.exists(path1):
         pass
     else:
         os.mkdir(path1)
-    name = name2[i].replace("\n", "")
-    print(name)
-    for j in range(1, 500):
-        page(i=i, name=name)
+    name_2 = name2[i].replace("\n", "")
+    print(name_2)
+    try:
+        page(i, name_2)
+        print(str(name_2) + "下載成功")
+    except IndexError:
+        print('下載完成')
