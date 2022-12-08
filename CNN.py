@@ -32,3 +32,15 @@ model.add(Dense(4, activation='softmax', name="Dense_2"))  # 分四種鳥類
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 print(model.summary())
+
+"""
+#載入資料
+(train_images,train_labels),(test_images,test_labels)=birdsound.load_data()
+//birdsound 為資料處理完後的封裝
+
+**封裝後要存入的矩陣形狀：
+train_images=(50000,32,32,1)
+train_labels=(50000,1)
+test_images=(10000,32,32,1)
+test_labels=(10000,1)
+"""
