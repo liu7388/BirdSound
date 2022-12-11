@@ -140,7 +140,7 @@ def image2npy(dir_path, testScale):
 check()
 image2npy('./label/', 0.1)
 
-image_no = np.random.randint(0, 15, size=2)  # 随机挑选9个数字
+# test
 train_images = np.load('./label/train-images-idx3.npy', allow_pickle=True)
 test_images = np.load('./label/t10k-images-idx3.npy', allow_pickle=True)
 train_labels = np.load('./label/train-labels-idx1.npy', allow_pickle=True)
