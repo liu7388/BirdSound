@@ -1,0 +1,6 @@
+venv
+.idea
+*.exe
+data/*
+*.mp3
+testing.py
