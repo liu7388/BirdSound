@@ -3,3 +3,4 @@ venv
 *.exe
 data/*
 *.mp3
+*.exe
