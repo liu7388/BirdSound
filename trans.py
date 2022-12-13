@@ -15,13 +15,13 @@ with open(path, 'r', encoding='utf-8') as f:
         s = line.split(' ')
         name1.append(s[0])
 
-for i in range(3, 4):
+for i in range(2, 4):
     m = 1
     name_1 = str(name1[i])
     print(name_1)
 
     path = "./data/audio/" + name_1
-    n = len(os.listdir(path))
+    n = len(os.listdir(path))+1
 
     for j in range(1, n):
         path1 = './data/audio/' + name_1 + "/" + name_1 + str(j)
@@ -66,6 +66,3 @@ for i in range(3, 4):
         else:
             print('音檔過短')
             pass
-
-# https://docs.python.org/zh-cn/3/library/wave.html
-# https://www.twblogs.net/a/5c1fabb8bd9eee16b3dab5d6
