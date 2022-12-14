@@ -4,3 +4,4 @@ venv
 *.png
 *.mp3
 *.exe
+testing.py
