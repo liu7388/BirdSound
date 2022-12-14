@@ -5,9 +5,6 @@ import matplotlib.pyplot as plt
 import random
 from tqdm import tqdm
 
-path = "./"
-save_path = "C:/Users/asus/OneDrive/桌面/功課/111-1/深度學習/pythonProject/"
-print(os.listdir(path))
 m = 0
 
 
@@ -86,7 +83,7 @@ def image_label(imageLabel, label2idx, i):
 
 
 def check():
-    path = './label/'
+    path = './data/label/'
 
     for img_file in os.listdir(path):
         if '.npy' in img_file:
@@ -130,31 +127,31 @@ def image2npy(dir_path, testScale):
     y_test = np.array([i[1] for i in test_data], dtype=object)  # 测试集标签
     print(len(X_train), len(y_train), len(X_test), len(y_test))
     # 保存文件
-    np.save('./label/train-images-idx3.npy', X_train)
-    np.save('./label/train-labels-idx1.npy', y_train)
-    np.save('./label/t10k-images-idx3.npy', X_test)
-    np.save('./label/t10k-labels-idx1.npy', y_test)
+    np.save('./data/label/train-images-idx3.npy', X_train)
+    np.save('./data/label/train-labels-idx1.npy', y_train)
+    np.save('./data/label/t10k-images-idx3.npy', X_test)
+    np.save('./data/label/t10k-labels-idx1.npy', y_test)
     return label2idx
 
 
 check()
-image2npy('./label/', 0.2)
+image2npy('./data/label/', 0.2)
 
-image_no = np.random.randint(0, 15, size=2)  # 随机挑选9个数字
-train_images = np.load('./label/train-images-idx3.npy', allow_pickle=True)
-test_images = np.load('./label/t10k-images-idx3.npy', allow_pickle=True)
-train_labels = np.load('./label/train-labels-idx1.npy', allow_pickle=True)
-test_labels = np.load('./label/t10k-labels-idx1.npy', allow_pickle=True)
-print(train_labels)
+# image_no = np.random.randint(0, 15, size=2)  # 随机挑选9个数字
+# train_images = np.load('./data/label/train-images-idx3.npy', allow_pickle=True)
+# test_images = np.load('./data/label/t10k-images-idx3.npy', allow_pickle=True)
+# train_labels = np.load('./data/label/train-labels-idx1.npy', allow_pickle=True)
+# test_labels = np.load('./data/label/t10k-labels-idx1.npy', allow_pickle=True)
+# print(train_labels)
 
-for i in range(0, 14):
-    img = 255 * np.array(train_images[i]).astype('uint8')
-    im_write('./', i, np.array(img))
-    np.set_printoptions(threshold=np.inf)
-    print(np.array(img))
-    print(i, train_labels[i])
-
-for i in range(0, 1):
-    img = 255 * np.array(test_images[i]).astype('uint8')
-    im_write('./', i, np.array(img))
-    print(i, test_labels)
+# for i in range(0, 14):
+#     img = 255 * np.array(train_images[i]).astype('uint8')
+#     im_write('./', i, np.array(img))
+#     np.set_printoptions(threshold=np.inf)
+#     print(np.array(img))
+#     print(i, train_labels[i])
+#
+# for i in range(0, 1):
+#     img = 255 * np.array(test_images[i]).astype('uint8')
+#     im_write('./', i, np.array(img))
+#     print(i, test_labels)
