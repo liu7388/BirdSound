@@ -1,6 +1,6 @@
 venv
 .idea
 *.exe
-data/*
+*.png
 *.mp3
 *.exe
