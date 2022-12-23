@@ -16,6 +16,7 @@ os.environ['KMP_DUPLICATE_LIB_OK']='True'
 池化層(池化窗口大小2*2)
 卷積層(基底64/卷積核3*3/激活relu)
 池化層(池化窗口大小2*2)
+Dropout層(比率為0.5)
 扁平層
 全連接層(輸出1024/激活relu)
 全連接層(輸出4/激活softmax)
@@ -60,8 +61,8 @@ train_images = train_images.reshape(-1, 21, 45, 1)
 test_images = test_images.reshape(-1, 21, 45, 1)
 
 # 訓練階段
-# 訓練資料/訓練標籤/疊代10次/每次訓練抓200個樣本/訓練提早結束/
-model_history = model.fit(train_images,train_labels,epochs=20, batch_size=200, callbacks = my_callbacks, validation_data=(test_images, test_labels))
+# 訓練資料/訓練標籤/疊代20次/每次訓練抓200個樣本/訓練提早結束/
+model_history = model.fit(train_images,train_labels,epochs=20, batch_size=200, callbacks=my_callbacks, validation_data=(test_images, test_labels))
 
 # 測試階段
 train_loss,train_acc=model.evaluate(train_images,train_labels)
