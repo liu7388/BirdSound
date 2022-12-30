@@ -22,29 +22,29 @@ Dropout層(比率為0.5)
 全連接層(輸出4/激活softmax)
 """
 
-model = Sequential(name="Model")
+model1 = Sequential(name="Model")
 
 # block 1
-model.add(Conv2D(filters=32, kernel_size=(3, 3), input_shape=(21, 45, 1), activation='relu', padding='same',
+model1.add(Conv2D(filters=32, kernel_size=(3, 3), input_shape=(21, 45, 1), activation='relu', padding='same',
                  name='block_1_conv'))  # 接收圖片為45*21且為灰階(1)
-model.add(MaxPooling2D(pool_size=(2, 2), name='block_1_pool'))
+model1.add(MaxPooling2D(pool_size=(2, 2), name='block_1_pool'))
 # block 2
-model.add(Conv2D(filters=64, kernel_size=(3, 3), activation='relu', padding='same', name='block_2_conv'))
-model.add(MaxPooling2D(pool_size=(2, 2), name='block_2_pool'))
-model.add(Dropout(0.5))
+model1.add(Conv2D(filters=64, kernel_size=(3, 3), activation='relu', padding='same', name='block_2_conv'))
+model1.add(MaxPooling2D(pool_size=(2, 2), name='block_2_pool'))
+model1.add(Dropout(0.5))
 # 扁平層
-model.add(Flatten(name="flatten"))
+model1.add(Flatten(name="flatten"))
 # 全連階層
-model.add(Dense(1024, activation='relu', name="Dense_1"))
-model.add(Dense(4, activation='softmax', name="Dense_2"))  # 分四種鳥類
+model1.add(Dense(1024, activation='relu', name="Dense_1"))
+model1.add(Dense(4, activation='softmax', name="Dense_2"))  # 分四種鳥類
 
-model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
+model1.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-print(model.summary())
+print(model1.summary())
 
 # 建立提早結束CALLBACK
 # validation accuracy 三個執行週期沒改善就停止訓練
-my_callbacks = [tf.keras.callbacks.EarlyStopping(patience=3, monitor='val_accuracy')]
+callback1 = [tf.keras.callbacks.EarlyStopping(patience=3, monitor='val_accuracy')]
 
 # 載入資料
 train_images = np.load(r'C:\Users\jocy3\Desktop\教學\深度學習\專案\BirdSound\data\label\train-images-idx3.npy',allow_pickle=True)
@@ -62,11 +62,11 @@ test_images = test_images.reshape(-1, 21, 45, 1)
 
 # 訓練階段
 # 訓練資料/訓練標籤/疊代20次/每次訓練抓200個樣本/訓練提早結束/
-model_history = model.fit(train_images,train_labels,epochs=20, batch_size=200, callbacks=my_callbacks, validation_data=(test_images, test_labels))
+model_history = model1.fit(train_images,train_labels,epochs=20, batch_size=200, callbacks=callback1, validation_data=(test_images, test_labels))
 
 # 測試階段
-train_loss,train_acc=model.evaluate(train_images,train_labels)
-test_loss,test_acc=model.evaluate(test_images,test_labels)
+train_loss,train_acc=model1.evaluate(train_images,train_labels)
+test_loss,test_acc=model1.evaluate(test_images,test_labels)
 print("\nTrain loss:", train_loss, "Train Accuracy:", train_acc)
 print("Test loss", test_loss, "Test Accuracy:", test_acc)
 
