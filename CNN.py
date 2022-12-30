@@ -7,7 +7,7 @@ import numpy as np
 from keras.utils import to_categorical
 import matplotlib.pyplot as plt
 import os
-os.environ['KMP_DUPLICATE_LIB_OK']='True'
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
 
 # 建立卷積神經網路
@@ -53,28 +53,28 @@ test_images = np.load(r'C:\Users\jocy3\Desktop\教學\深度學習\專案\BirdSo
 test_labels = np.load(r'C:\Users\jocy3\Desktop\教學\深度學習\專案\BirdSound\data\label\t10k-labels-idx1.npy',allow_pickle=True)
 
 # 資料前處理
-train_images=train_images.astype('float32')/255  #把輸入的灰度值/255，使其在0與1間
-test_images=test_images.astype('float32')/255
-train_labels=to_categorical(train_labels)     #One Hot Encoding
-test_labels=to_categorical(test_labels)
+train_images = train_images.astype('float32')/255  #把輸入的灰度值/255，使其在0與1間
+test_images = test_images.astype('float32')/255
+train_labels = to_categorical(train_labels)     #One Hot Encoding
+test_labels = to_categorical(test_labels)
 train_images = train_images.reshape(-1, 21, 45, 1)
 test_images = test_images.reshape(-1, 21, 45, 1)
 
 # 訓練階段
 # 訓練資料/訓練標籤/疊代20次/每次訓練抓200個樣本/訓練提早結束/
-model_history = model1.fit(train_images,train_labels,epochs=20, batch_size=200, callbacks=callback1, validation_data=(test_images, test_labels))
+model_history = model1.fit(train_images, train_labels, epochs=20, batch_size=200, callbacks=callback1, validation_data=(test_images, test_labels))
 
 # 測試階段
-train_loss,train_acc=model1.evaluate(train_images,train_labels)
-test_loss,test_acc=model1.evaluate(test_images,test_labels)
+train_loss, train_acc = model1.evaluate(train_images, train_labels)
+test_loss, test_acc = model1.evaluate(test_images, test_labels)
 print("\nTrain loss:", train_loss, "Train Accuracy:", train_acc)
 print("Test loss", test_loss, "Test Accuracy:", test_acc)
 
 # 輸出預測圖
 # ACCURACY
 plt.figure()
-plt.plot(model_history.history['accuracy'],color='darkcyan')
-plt.plot(model_history.history['val_accuracy'],color='coral')
+plt.plot(model_history.history['accuracy'], color='darkcyan')
+plt.plot(model_history.history['val_accuracy'], color='coral')
 plt.title("Model Accuracy")
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')

@@ -6,7 +6,7 @@ from keras.utils import to_categorical
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-os.environ['KMP_DUPLICATE_LIB_OK']='True'
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
 #建立LSTLM模型
 """
@@ -22,14 +22,14 @@ LSTM
 model2 = Sequential(name="Model2")
 
 # block 1
-model2.add(LSTM(units = 50, return_sequences=True, input_shape=(21, 45)))
+model2.add(LSTM(units=50, return_sequences=True, input_shape=(21, 45)))
 # return_sequences為True，輸出三維 (batch_size, time_step, units)
 model2.add(Dropout(0.2))
 # block 2
-model2.add(LSTM(units = 50, return_sequences=True))
+model2.add(LSTM(units=50, return_sequences=True))
 model2.add(Dropout(0.2))
 # block 3
-model2.add(LSTM(units = 50, return_sequences=True))
+model2.add(LSTM(units=50, return_sequences=True))
 # 扁平層
 model2.add(Flatten(name="flatten"))
 # 全連階層
@@ -62,20 +62,20 @@ test_images = test_images.reshape(-1, 21, 45, 1)
 model2_history = model2.fit(train_images, train_labels, epochs=60, batch_size=200, callbacks=callback2, validation_data=(test_images, test_labels))
 
 # 測試階段
-train_loss,train_acc=model2.evaluate(train_images,train_labels)
-test_loss,test_acc=model2.evaluate(test_images,test_labels)
+train_loss,train_acc = model2.evaluate(train_images,train_labels)
+test_loss,test_acc = model2.evaluate(test_images,test_labels)
 print("\nTrain loss:", train_loss, "Train Accuracy:", train_acc)
 print("Test loss", test_loss, "Test Accuracy:", test_acc)
 
 # 輸出預測圖
 # ACCURACY
 plt.figure()
-plt.plot(model2_history.history['accuracy'],color='darkcyan')
-plt.plot(model2_history.history['val_accuracy'],color='coral')
+plt.plot(model2_history.history['accuracy'], color='darkcyan')
+plt.plot(model2_history.history['val_accuracy'], color='coral')
 plt.title("Model Accuracy")
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
-plt.legend(["train accuracy",'test accuracy'], loc='lower right')
+plt.legend(["train accuracy", 'test accuracy'], loc='lower right')
 plt.show()
 # LOSS
 plt.figure()
