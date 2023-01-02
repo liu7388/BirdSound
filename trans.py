@@ -15,7 +15,7 @@ with open(path, 'r', encoding='utf-8') as f:
         s = line.split(' ')
         name1.append(s[0])
 
-for i in range(1, 4):
+for i in range(0, 4):
     m = 1
     name_1 = str(name1[i])
     print(name_1)

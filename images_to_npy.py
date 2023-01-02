@@ -137,21 +137,3 @@ def image2npy(dir_path, testScale):
 check()
 image2npy('./data/label/', 0.2)
 
-# image_no = np.random.randint(0, 15, size=2)  # 随机挑选9个数字
-# train_images = np.load('./data/label/train-images-idx3.npy', allow_pickle=True)
-# test_images = np.load('./data/label/t10k-images-idx3.npy', allow_pickle=True)
-# train_labels = np.load('./data/label/train-labels-idx1.npy', allow_pickle=True)
-# test_labels = np.load('./data/label/t10k-labels-idx1.npy', allow_pickle=True)
-# print(train_labels)
-
-# for i in range(0, 14):
-#     img = 255 * np.array(train_images[i]).astype('uint8')
-#     im_write('./', i, np.array(img))
-#     np.set_printoptions(threshold=np.inf)
-#     print(np.array(img))
-#     print(i, train_labels[i])
-#
-# for i in range(0, 1):
-#     img = 255 * np.array(test_images[i]).astype('uint8')
-#     im_write('./', i, np.array(img))
-#     print(i, test_labels)
