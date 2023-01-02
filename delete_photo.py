@@ -25,9 +25,8 @@ def mse(imageA, imageB):
 
 
 def compare_images(imageA, imageB, img_path):
-    # 分別計算輸入圖片的MSE和SSIM指標值的大小
+    # 計算輸入圖片的MSE指標值的大小
     m = mse(imageA, imageB)
-    s = ssim(imageA, imageB)
     if m < 400:
         os.remove(img_path)
     else:
