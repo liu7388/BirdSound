@@ -5,4 +5,3 @@ venv
 *.mp3
 *.exe
 testing.py
-data/*
