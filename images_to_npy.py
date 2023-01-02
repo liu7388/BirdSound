@@ -87,7 +87,7 @@ def check():
 
     for img_file in os.listdir(path):
         if '.npy' in img_file:
-            os.remove('./label/' + img_file)
+            os.remove('./data/label/' + img_file)
         else:
             pass
 
