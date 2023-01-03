@@ -1,6 +1,5 @@
 import os
 from tqdm import tqdm
-from skimage.metrics import structural_similarity as ssim
 import numpy as np
 import cv2
 
@@ -19,7 +18,6 @@ def mse(imageA, imageB):
     # 計算兩張圖片的MSE指標
     err = np.sum((imageA.astype("float") - imageB.astype("float")) ** 2)
     err /= float(imageA.shape[0] * imageA.shape[1])
-
     # 返回結果，該值越小越好
     return err
 
@@ -31,7 +29,6 @@ def compare_images(imageA, imageB, img_path):
         os.remove(img_path)
     else:
         pass
-    # print("MSE: %.2f, SSIM: %.2f" % (m, s))
 
 
 dir_path = './data/label/'
