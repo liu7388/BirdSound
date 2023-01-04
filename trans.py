@@ -26,19 +26,17 @@ for i in range(0, 4):
 
     # 將資料夾中的每個音檔都進行轉換
     for j in range(1, n):
-        path1 = './data/audio/' + name_1 + "/" + name_1 + str(j)  # 音檔所在位置
-        count, audio, path2 = calculate(j, name_1, path1)  # 將指定參數匯入calculate函式並獲取新的值
+        audio_path = './data/audio/' + name_1 + "/" + name_1 + str(j)  # 音檔所在位置
+        image_path = './data/images/' + name_1  # 圖檔儲存資料夾
+        count, audio = calc(j, name_1, audio_path, image_path)  # 將指定參數匯入calc函式並獲取新的值
 
         if int(count) > 0:
             # 如果calculate函數計算後所得的count>0，也就是該音檔可以被10整除
             for k in range(0, int(count)):
                 # 執行音檔切分並轉換為圖檔
-                cut_and_trans(k, audio, path2, name_1)
+                cut_and_trans(k, audio, image_path, name_1)
 
         else:
             # 其他便是音檔過短的情形
             print('音檔過短')
             pass
-
-# https://docs.python.org/zh-cn/3/library/wave.html
-# https://www.twblogs.net/a/5c1fabb8bd9eee16b3dab5d6
