@@ -1,75 +1,8 @@
-import cv2
-import os
-import numpy as np
-import matplotlib.pyplot as plt
 import random
 from tqdm import tqdm
+from library import *
 
 m = 0
-
-
-def im_read(img_file):
-    img_file = cv2.imdecode(np.fromfile(img_file, dtype=np.uint8), -1)
-    return img_file
-
-
-def im_write(save_path, m, name):
-    cv2.imencode('.jpg', name)[1].tofile(save_path + str(m) + '.jpg')
-
-
-def show_img(img):
-    image_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    plt.imshow(image_rgb)
-    plt.show()
-
-
-def crop_img(img):
-    # x_l, x_r = 80, 576  # left, right
-    # y_u, y_d = 58, 427  # up, down
-
-    x_l, x_r = 80, 576  # left, right
-    y_u, y_d = 58, 411  # up, down
-    crop = img[y_u:y_d, x_l:x_r]  # notice: first y, then x
-    return crop
-
-
-def HSV_img(img):
-    redhsv1 = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    return redhsv1
-
-
-def gray_img(img):
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    return gray
-
-
-def white_noise(image, min_noise, max_noise):
-    img = np.copy(image)
-    noise = np.random.randint(min_noise, max_noise, img.shape)
-    return np.clip(img + noise, 0, 255).astype('uint8')
-
-
-def gaussian_noise(image, mean=0, sigma=1):
-    img = np.copy(image)
-    noise = np.random.normal(mean, sigma, img.shape)
-    return np.clip(img + noise, 0, 255).astype('uint8')
-
-
-def salt_pepper_noise(image, fraction, salt_vs_pepper):
-    img = np.copy(image)
-    size = img.size
-    num_salt = np.ceil(fraction * size * salt_vs_pepper).astype('int')
-    num_pepper = np.ceil(fraction * size * (1 - salt_vs_pepper)).astype('int')
-    row, column = img.shape
-
-    x = np.random.randint(0, column - 1, num_pepper)
-    y = np.random.randint(0, row - 1, num_pepper)
-    img[y, x] = 0
-
-    x = np.random.randint(0, column - 1, num_salt)
-    y = np.random.randint(0, row - 1, num_salt)
-    img[y, x] = 255
-    return img
 
 
 def image_label(imageLabel, label2idx, i):
