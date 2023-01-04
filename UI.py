@@ -6,22 +6,6 @@ import wave
 import sys
 from PIL import Image, ImageTk
 
-root = tk.Tk()
-
-root.title('BirdSound')
-
-window_width = root.winfo_screenwidth()  # 取得螢幕寬度
-window_height = root.winfo_screenheight()  # 取得螢幕高度
-root.configure(background='#a9b4c2')
-
-width = 600
-height = 400
-left = int((window_width - width) / 2)  # 計算左上 x 座標
-top = int((window_height - height) / 2)  # 計算左上 y 座標
-root.geometry(f'{width}x{height}+{left}+{top}')
-
-tk.Label(text='Welcome to BirdSound!', fg='#a9b4c2', bg='#eef1ef', font=('times', 24)).place(x=150, y=120)
-
 
 def show():
     file_path = filedialog.askopenfilename()  # 選擇檔案後回傳檔案路徑與名稱
@@ -39,6 +23,16 @@ def predict(file_path):
         print('音檔過短')
         sys.exit()
 
+    img_path = './data/images/test/test1.png'
+    img = Image.open(img_path)  # 取得圖片路徑
+    w, h = img.size  # 取得圖片長寬
+    tk_img = ImageTk.PhotoImage(img)  # 轉換成 tk 圖片物件
+    canvas.delete('all')  # 清空 Canvas 原本內容
+    canvas.config(scrollregion=(0, 0, w, h))  # 改變捲動區域
+    canvas.create_image(0, 0, anchor='nw', image=tk_img)  # 建立圖片
+    canvas.tk_img = tk_img  # 修改屬性更新畫面
+
+
 def record():
     chunk = 1024  # 記錄聲音的樣本區塊大小
     sample_format = pyaudio.paInt16  # 樣本格式，可使用 paFloat32、paInt32、paInt24、paInt16、paInt8、paUInt8、paCustomFormat
@@ -48,6 +42,17 @@ def record():
     filename = "test.wav"  # 錄音檔名
 
     p = pyaudio.PyAudio()  # 建立 pyaudio 物件
+
+    root1 = tk.Tk()
+    root1.title('Recording')
+    root1.configure(background='#a9b4c2')
+    width = 800
+    height = 600
+    left = int((window_width - width) / 2)  # 計算左上 x 座標
+    top = int((window_height - height) / 2)  # 計算左上 y 座標
+    root1.geometry(f'{width}x{height}+{left}+{top}')
+
+    # tk.Label(text='Start recording!', fg='#a9b4c2', bg='#eef1ef', width=20, height=1, font=('times', 24)).pack()
 
     print("開始錄音...")
 
@@ -65,6 +70,7 @@ def record():
     p.terminate()
 
     print('錄音結束...')
+    # tk.Label(text='Finish recording!', fg='#a9b4c2', bg='#eef1ef', width=20, height=1, font=('times', 24)).pack()
 
     wf = wave.open(filename, 'wb')  # 開啟聲音記錄檔
     wf.setnchannels(channels)  # 設定聲道
@@ -77,8 +83,44 @@ def record():
     predict(file_path)
 
 
+root = tk.Tk()
+
+root.title('BirdSound')
+
+window_width = root.winfo_screenwidth()  # 取得螢幕寬度
+window_height = root.winfo_screenheight()  # 取得螢幕高度
+root.configure(background='#a9b4c2')
+
+width = 800
+height = 600
+left = int((window_width - width) / 2)  # 計算左上 x 座標
+top = int((window_height - height) / 2)  # 計算左上 y 座標
+root.geometry(f'{width}x{height}+{left}+{top}')
+
+root.resizable(False, False)  # 視窗不可縮放
+
+tk.Label(text='Welcome to BirdSound!', fg='#a9b4c2', bg='#eef1ef', width=20, height=1, font=('times', 24)).place(x=230,
+                                                                                                                 y=30)
+
 # Button 設定 command 參數，點擊按鈕時執行 show 函式
-tk.Button(root, text='Open file', command=show).place(x=300, y=180)
-tk.Button(root, text='Record', command=record).place(x=200, y=180)
+tk.Button(root, text='Open file', command=show, width=10, height=1, bg='#eef1ef', font=('times', 8)).place(x=620,
+                                                                                                           y=100)
+tk.Button(root, text='Record', command=record, width=10, height=1, bg='#eef1ef', font=('times', 8)).place(x=120, y=100)
+
+frame = tk.Frame(root, width=700, height=400)  # 放 Canvas 的 Frame
+frame.place(x=50, y=150)
+
+canvas = tk.Canvas(frame, width=700, height=400, bg='#fff')  # Canvas
+
+scrollX = tk.Scrollbar(frame, orient='horizontal')  # 水平捲軸
+scrollX.pack(side='bottom', fill='x')
+scrollX.config(command=canvas.xview)
+
+scrollY = tk.Scrollbar(frame, orient='vertical')  # 垂直捲軸
+scrollY.pack(side='right', fill='y')
+scrollY.config(command=canvas.yview)
+
+canvas.config(xscrollcommand=scrollX.set, yscrollcommand=scrollY.set)  # Canvas 綁定捲軸
+canvas.pack(side='left')
 
 root.mainloop()
