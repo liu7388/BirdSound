@@ -25,8 +25,8 @@ for i in range(0, 4):
     n = len(os.listdir(path))  # n為該路徑中有幾個音檔
 
     # 將資料夾中的每個音檔都進行轉換
-    for j in range(1, n):
-        audio_path = './data/audio/' + name_1 + "/" + name_1 + str(j)  # 音檔所在位置
+    for j in range(1, n + 1):
+        audio_path = './data/audio/' + name_1 + '/' + name_1 + str(j) + '.mp3'  # 音檔所在位置
         image_path = './data/images/' + name_1  # 圖檔儲存資料夾
         count, audio = calc(j, name_1, audio_path, image_path)  # 將指定參數匯入calc函式並獲取新的值
 

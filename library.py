@@ -35,23 +35,22 @@ def cut_and_trans(k, audio, image_path, name_1):
         pass  # 如果出現Index沒有資料了，則pass
 
 
-def calc(j, name_1, audio_path, image_path):
-    # 設定路徑
+def calc(j, name_1, audio_path, path):
     # 印出正在計算&轉換的檔名
     print(name_1 + str(j))
 
-    if os.path.exists(image_path):
+    if os.path.exists(path):
         # 如果資料夾存在，則pass
         pass
     else:
-        os.mkdir(image_path)
+        os.mkdir(path)
         # 如果資料夾不存在，建立一個資料夾，名稱為name_1
 
     if '.mp3' in audio_path:
         audio = AudioSegment.from_file(audio_path, format="mp3")  # 開啟mp3檔
         wname = mktemp('.wav')  # 暫存資料夾
         audio1 = audio.export(wname, format="wav")  # 轉換成 wav
-         # 使用wave打開wav音檔
+        # 使用wave打開wav音檔
 
     elif '.wav' in audio_path:
         audio = AudioSegment.from_file(audio_path, format="wav")
@@ -75,7 +74,7 @@ def calc(j, name_1, audio_path, image_path):
     count = time / 10
     print(int(count))
 
-    return count,audio
+    return count, audio
 
 
 # 處理圖片
@@ -175,9 +174,9 @@ def catch_audio(i, j, name, path, container):
             res = requests.get(url=url1, headers=headers)
             title = str((j - 1) * 30 + k + 1)  # 幫檔案編碼
             name3 = str(name[i])  # 欲儲存的檔名
-            with open(file=path + name3 + '0' + title + '.mp3', mode='wb') as f:
+            with open(file=path + name3 + title + '.mp3', mode='wb') as f:
                 f.write((res.content))  # 下載MP3到指定位置，並命名為指定的名稱
-                print(name3 + '0' + title + '.mp3' + "下載成功")
+                print(name3 + title + '.mp3' + "下載成功")
 
     except IndexError:
         print("本頁下載成功")

@@ -69,4 +69,3 @@ def image2npy(dir_path, testScale):
 
 check()
 image2npy('./data/label/', 0.2)
-

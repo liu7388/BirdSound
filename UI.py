@@ -66,7 +66,6 @@ def record():
     t.withdraw()
 
 
-
 class MainWindow(tk.Frame):
     def __init__(self, *args, **kwargs):
         tk.Frame.__init__(self, *args, **kwargs)
@@ -95,7 +94,6 @@ class MainWindow(tk.Frame):
                                            y=200)
         tk.Button(t, text='Start record', command=record, width=20, height=3, bg='#eef1ef',
                   font=('times', 8), activebackground='#5e6572', activeforeground='#eef1ef').place(x=350, y=300)
-
 
     def show(self):
         file_path = filedialog.askopenfilename()  # 選擇檔案後回傳檔案路徑與名稱

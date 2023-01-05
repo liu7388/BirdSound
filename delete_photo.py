@@ -1,10 +1,13 @@
 from tqdm import tqdm
 from library import *
 
+# 設定路徑與預設值
 dir_path = './data/label/'
 labels = ['Anas', 'Hirun', 'Motac', 'Passer']
 
-for i in range(1, 4):
+# 在四種鳥類中
+for i in range(0, 4):
+    # 獲得鳥名
     for j in labels:
         for (root, dirs, files) in os.walk(dir_path + str(j)):
             for Ufile in tqdm(files):
