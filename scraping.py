@@ -1,10 +1,16 @@
 from library import *
 
+"""
+透過爬取 'https://xeno-canto.org' 網頁上的音檔獲得鳥類的聲音資料
+以便於後續資料前處理與深度學習的進行
+"""
+
+# 設定路徑與預設值
+
+path = './data/鳥類.txt'
+
 name1 = []
 name2 = []
-
-# 設定路徑
-path = './data/鳥類.txt'
 
 # 開啟鳥類txt檔
 with open(path, 'r', encoding='utf-8') as f:

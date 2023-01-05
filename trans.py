@@ -1,9 +1,16 @@
 from library import *
 
-name1 = []
 
-# 設定路徑
+"""
+本檔案用於將scraping.py所爬取下來的音檔
+每十秒切分為一張圖片
+並將其儲存
+"""
+
+
+# 設定路徑與預設值
 path = './data/鳥類.txt'
+name1 = []
 
 # 開啟鳥類txt檔
 with open(path, 'r', encoding='utf-8') as f:
@@ -37,6 +44,6 @@ for i in range(0, 4):
                 cut_and_trans(k, audio, image_path, name_1)
 
         else:
-            # 其他便是音檔過短的情形
+            # 其他便是音檔過短，此時就將其pass掉
             print('音檔過短')
             pass
