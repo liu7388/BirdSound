@@ -7,12 +7,6 @@ import sys
 from PIL import Image, ImageTk
 
 
-def show():
-    file_path = filedialog.askopenfilename()  # 選擇檔案後回傳檔案路徑與名稱
-    print(file_path)  # 印出路徑
-    predict(file_path)
-
-
 def predict(file_path):
     path = './data/images/test'
     count, audio = calc(1, 'test', file_path, path)
@@ -43,17 +37,6 @@ def record():
 
     p = pyaudio.PyAudio()  # 建立 pyaudio 物件
 
-    root1 = tk.Tk()
-    root1.title('Recording')
-    root1.configure(background='#a9b4c2')
-    width = 800
-    height = 600
-    left = int((window_width - width) / 2)  # 計算左上 x 座標
-    top = int((window_height - height) / 2)  # 計算左上 y 座標
-    root1.geometry(f'{width}x{height}+{left}+{top}')
-
-    # tk.Label(text='Start recording!', fg='#a9b4c2', bg='#eef1ef', width=20, height=1, font=('times', 24)).pack()
-
     print("開始錄音...")
 
     # 開啟錄音串流
@@ -70,7 +53,6 @@ def record():
     p.terminate()
 
     print('錄音結束...')
-    # tk.Label(text='Finish recording!', fg='#a9b4c2', bg='#eef1ef', width=20, height=1, font=('times', 24)).pack()
 
     wf = wave.open(filename, 'wb')  # 開啟聲音記錄檔
     wf.setnchannels(channels)  # 設定聲道
@@ -81,15 +63,50 @@ def record():
 
     file_path = './test.wav'
     predict(file_path)
+    t.withdraw()
+
+
+
+class MainWindow(tk.Frame):
+    def __init__(self, *args, **kwargs):
+        tk.Frame.__init__(self, *args, **kwargs)
+        root.title('BirdSound')
+        tk.Label(text='Welcome to BirdSound!', fg='#a9b4c2', bg='#eef1ef', width=20, height=1,
+                 font=('times', 24)).place(x=230,
+                                           y=30)
+        tk.Button(root, text='Open file', command=self.show, width=10, height=1, bg='#eef1ef',
+                  font=('times', 8)).place(x=620, y=100)
+        tk.Button(root, text='Record', command=self.recording, width=10, height=1, bg='#eef1ef',
+                  font=('times', 8)).place(x=120, y=100)
+
+    def recording(self):
+        global t
+        t = tk.Toplevel(self)
+        t.wm_resizable(False, False)
+        t.wm_title("Recording")
+        t.configure(background='#a9b4c2')
+        width = 800
+        height = 600
+        left = int((window_width - width) / 2)  # 計算左上 x 座標
+        top = int((window_height - height) / 2)  # 計算左上 y 座標
+        t.geometry(f'{width}x{height}+{left}+{top}')
+        tk.Label(t, text='Please click the button', fg='#a9b4c2', bg='#eef1ef', width=20, height=1,
+                 font=('times', 24)).place(x=230,
+                                           y=200)
+        tk.Button(t, text='Start record', command=record, width=20, height=3, bg='#eef1ef',
+                  font=('times', 8), activebackground='#5e6572', activeforeground='#eef1ef').place(x=350, y=300)
+
+
+    def show(self):
+        file_path = filedialog.askopenfilename()  # 選擇檔案後回傳檔案路徑與名稱
+        print(file_path)  # 印出路徑
+        predict(file_path)
 
 
 root = tk.Tk()
 
-root.title('BirdSound')
-
 window_width = root.winfo_screenwidth()  # 取得螢幕寬度
 window_height = root.winfo_screenheight()  # 取得螢幕高度
-root.configure(background='#a9b4c2')
 
 width = 800
 height = 600
@@ -99,19 +116,15 @@ root.geometry(f'{width}x{height}+{left}+{top}')
 
 root.resizable(False, False)  # 視窗不可縮放
 
-tk.Label(text='Welcome to BirdSound!', fg='#a9b4c2', bg='#eef1ef', width=20, height=1, font=('times', 24)).place(x=230,
-                                                                                                                 y=30)
-
 # Button 設定 command 參數，點擊按鈕時執行 show 函式
-tk.Button(root, text='Open file', command=show, width=10, height=1, bg='#eef1ef', font=('times', 8)).place(x=620,
-                                                                                                           y=100)
-tk.Button(root, text='Record', command=record, width=10, height=1, bg='#eef1ef', font=('times', 8)).place(x=120, y=100)
+main = MainWindow(root)
+main.configure(background='#a9b4c2')
+main.pack(side="top", fill="both", expand=True)
 
 frame = tk.Frame(root, width=700, height=400)  # 放 Canvas 的 Frame
 frame.place(x=50, y=150)
 
 canvas = tk.Canvas(frame, width=700, height=400, bg='#fff')  # Canvas
-
 scrollX = tk.Scrollbar(frame, orient='horizontal')  # 水平捲軸
 scrollX.pack(side='bottom', fill='x')
 scrollX.config(command=canvas.xview)
