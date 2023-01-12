@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import os
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
-#建立LSTLM模型
+#建立LSTM模型
 """
 LSTM
 Dropout層(比率為0.2)
@@ -58,8 +58,8 @@ train_images = train_images.reshape(-1, 21, 45, 1)
 test_images = test_images.reshape(-1, 21, 45, 1)
 
 # 訓練階段
-# 訓練資料/訓練標籤/疊代60次/每次訓練抓200個樣本
-model2_history = model2.fit(train_images, train_labels, epochs=60, batch_size=200, callbacks=callback2, validation_data=(test_images, test_labels))
+# 訓練資料/訓練標籤/疊代40次/每次訓練抓80個樣本
+model2_history = model2.fit(train_images, train_labels, epochs=40, batch_size=80, callbacks=callback2, validation_data=(test_images, test_labels))
 
 # 測試階段
 train_loss,train_acc = model2.evaluate(train_images,train_labels)
