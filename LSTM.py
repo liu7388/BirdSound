@@ -67,6 +67,9 @@ test_loss,test_acc = model2.evaluate(test_images,test_labels)
 print("\nTrain loss:", train_loss, "Train Accuracy:", train_acc)
 print("Test loss", test_loss, "Test Accuracy:", test_acc)
 
+#存成HDF5檔
+model2.save('model2.h5')
+
 # 輸出預測圖
 # ACCURACY
 plt.figure()
