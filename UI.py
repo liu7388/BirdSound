@@ -128,10 +128,10 @@ class MainWindow(tk.Frame):
         canvas.delete('all')  # 清空 Canvas 原本內容
         # canvas.create_image(650, 300, image=tk_img1).pack()
         # canvas.create_image(100, 300, image=tk_img2).pack()
-        canvas.create_text(450, 200, text='CNN_predict:', font=('Arial', 18))
-        canvas.create_text(555, 200, text=CNN_predict, font=('Arial', 18))
-        canvas.create_text(150, 200, text='LSTM_predict:', font=('Arial', 18))
-        canvas.create_text(265, 200, text=LSTM_predict, font=('Arial', 18))
+        canvas.create_text(150, 200, text='CNN_predict:', font=('Arial', 18))
+        canvas.create_text(265, 200, text=CNN_predict, font=('Arial', 18))
+        canvas.create_text(450, 200, text='LSTM_predict:', font=('Arial', 18))
+        canvas.create_text(555, 200, text=LSTM_predict, font=('Arial', 18))
 
 
 root = tk.Tk()
