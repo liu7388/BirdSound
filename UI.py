@@ -5,9 +5,10 @@ import pyaudio
 import wave
 import sys
 from PIL import Image, ImageTk
+import keras
 
 
-def predict(file_path):
+def trans(file_path):
     path = './data/images/test'
     count, audio = calc(1, 'test', file_path, path)
     if int(count) > 0:
@@ -25,6 +26,34 @@ def predict(file_path):
     canvas.config(scrollregion=(0, 0, w, h))  # 改變捲動區域
     canvas.create_image(0, 0, anchor='nw', image=tk_img)  # 建立圖片
     canvas.tk_img = tk_img  # 修改屬性更新畫面
+
+    path1 = './data/images/test/test1.png'
+    img = im_read(path1)
+    crop_im = crop_img(img)  # 切割圖片至指定的尺寸
+    gray = gray_img(crop_im)  # 將圖片灰階化
+    image = cv2.GaussianBlur(white_noise(gray, -5, 5), (3, 3), 15)  # 將圖片做高斯模糊
+    img_data = cv2.resize(image, (45, 21), interpolation=cv2.INTER_CUBIC)  # 將圖片轉至指定的尺寸
+    cv2.imwrite('./data/images/test/test2.png', img_data)
+
+    img_data = cv2.imread('./data/images/test/test2.png', 0)
+    img_data = np.expand_dims(img_data, axis=0)
+
+    model1 = keras.models.load_model('model1.h5')
+    model2 = keras.models.load_model('model2.h5')
+
+    result1 = model1.predict(img_data)
+    result2 = model2.predict(img_data)
+
+    CNN_predict, LSTM_predict = find_the_kind(result1, result2)
+
+
+    canvas.delete('all')  # 清空 Canvas 原本內容
+    canvas.create_text(100, 100, text='CNN_predict:', font=('Arial', 18))
+    canvas.create_text(300, 100, text=CNN_predict, font=('Arial', 18))
+    canvas.create_text(100, 200, text='LSTM_predict:', font=('Arial', 18))
+    canvas.create_text(300, 200, text=LSTM_predict, font=('Arial', 18))
+
+
 
 
 def record():
@@ -62,7 +91,7 @@ def record():
     wf.close()
 
     file_path = './test.wav'
-    predict(file_path)
+    trans(file_path)
     t.withdraw()
 
 
@@ -98,7 +127,7 @@ class MainWindow(tk.Frame):
     def show(self):
         file_path = filedialog.askopenfilename()  # 選擇檔案後回傳檔案路徑與名稱
         print(file_path)  # 印出路徑
-        predict(file_path)
+        trans(file_path)
 
 
 root = tk.Tk()

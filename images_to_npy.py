@@ -82,5 +82,5 @@ def image_to_npy(dir_path, testScale):
 
 
 check()  # 確認label中是否有npy檔
-traning_label = image_to_npy('./data/label1/', 0.2)  # 生成npy於label中，測試集：訓練集=2:8
+traning_label = image_to_npy('./data/label/', 0.2)  # 生成npy於label中，測試集：訓練集=2:8
 print(traning_label)

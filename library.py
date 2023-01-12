@@ -10,6 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import sys
+from tqdm import tqdm
 
 
 # 音檔轉圖檔
@@ -195,3 +196,18 @@ def page(i, name, name1, audio_path):
     except:
         # 遇到其他錯誤的話即pass
         pass
+
+
+def find_the_kind(result1, result2):
+    name = ['Anas', 'Hirun', 'Motac', 'Passer']
+
+    result1 = result1.tolist()
+    result2 = result2.tolist()
+
+    final1 = max(result1[0])
+    final2 = max(result1[0])
+
+    count1 = result1[0].index(final1)
+    count2 = result2[0].index(final2)
+
+    return name[count1], name[count2]
