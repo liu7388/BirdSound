@@ -44,6 +44,9 @@ def trans(file_path):
     result1 = model1.predict(img_data)
     result2 = model2.predict(img_data)
 
+    print(result1)
+    print(result2)
+
     CNN_predict, LSTM_predict = find_the_kind(result1, result2)
 
 
