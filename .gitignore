@@ -1,5 +1,6 @@
 venv
 .idea
+bird_picture
 *.exe
 *.png
 *.mp3
@@ -7,3 +8,4 @@ venv
 *.wav
 *.jpg
 testing.py
+*.zip

@@ -9,54 +9,39 @@ import keras
 
 
 def trans(file_path):
-    path = './data/images/test'
-    count, audio = calc(1, 'test', file_path, path)
-    if int(count) > 0:
-        # 如果calculate函數計算後所得的count>0，也就是該音檔可以被10整除
-        cut_and_trans(1, audio, path, 'test')  # 執行音檔切分並轉換為圖檔
-    else:
-        print('音檔過短')
-        sys.exit()
+    try:
+        img_path = './data/images/test/test1.png'
+        save_path = './data/images/test/test2.png'
 
-    img_path = './data/images/test/test1.png'
-    img = Image.open(img_path)  # 取得圖片路徑
-    w, h = img.size  # 取得圖片長寬
-    tk_img = ImageTk.PhotoImage(img)  # 轉換成 tk 圖片物件
-    canvas.delete('all')  # 清空 Canvas 原本內容
-    canvas.config(scrollregion=(0, 0, w, h))  # 改變捲動區域
-    canvas.create_image(0, 0, anchor='nw', image=tk_img)  # 建立圖片
-    canvas.tk_img = tk_img  # 修改屬性更新畫面
+        if os.path.exists(img_path):
+            os.remove(img_path)
+        elif os.path.exists(save_path):
+            os.remove(save_path)
+        else:
+            pass
 
-    path1 = './data/images/test/test1.png'
-    img = im_read(path1)
-    crop_im = crop_img(img)  # 切割圖片至指定的尺寸
-    gray = gray_img(crop_im)  # 將圖片灰階化
-    image = cv2.GaussianBlur(white_noise(gray, -5, 5), (3, 3), 15)  # 將圖片做高斯模糊
-    img_data = cv2.resize(image, (45, 21), interpolation=cv2.INTER_CUBIC)  # 將圖片轉至指定的尺寸
-    cv2.imwrite('./data/images/test/test2.png', img_data)
+        if '.png' in file_path:
+            img_data = im_read(file_path)
+            cv2.imwrite('./data/images/test/test1.png', img_data)
+        else:
+            path = './data/images/test'
+            count, audio = calc(1, 'test', file_path, path)
+            if int(count) > 0:
+                # 如果calculate函數計算後所得的count>0，也就是該音檔可以被10整除
+                cut_and_trans(1, audio, path, 'test')  # 執行音檔切分並轉換為圖檔
+            else:
+                tk.messagebox.showerror(title='Error', message='音檔過短！')
 
-    img_data = cv2.imread('./data/images/test/test2.png', 0)
-    img_data = np.expand_dims(img_data, axis=0)
+        img = Image.open(img_path)  # 取得圖片路徑
+        w, h = img.size  # 取得圖片長寬
+        tk_img = ImageTk.PhotoImage(img)  # 轉換成 tk 圖片物件
+        canvas.delete('all')  # 清空 Canvas 原本內容
+        canvas.config(scrollregion=(0, 0, w, h))  # 改變捲動區域
+        canvas.create_image(0, 0, anchor='nw', image=tk_img)  # 建立圖片
+        canvas.tk_img = tk_img  # 修改屬性更新畫面
 
-    model1 = keras.models.load_model('model1.h5')
-    model2 = keras.models.load_model('model2.h5')
-
-    result1 = model1.predict(img_data)
-    result2 = model2.predict(img_data)
-
-    print(result1)
-    print(result2)
-
-    CNN_predict, LSTM_predict = find_the_kind(result1, result2)
-
-
-    canvas.delete('all')  # 清空 Canvas 原本內容
-    canvas.create_text(100, 100, text='CNN_predict:', font=('Arial', 18))
-    canvas.create_text(300, 100, text=CNN_predict, font=('Arial', 18))
-    canvas.create_text(100, 200, text='LSTM_predict:', font=('Arial', 18))
-    canvas.create_text(300, 200, text=LSTM_predict, font=('Arial', 18))
-
-
+    except FileNotFoundError:
+        pass
 
 
 def record():
@@ -68,8 +53,6 @@ def record():
     filename = "test.wav"  # 錄音檔名
 
     p = pyaudio.PyAudio()  # 建立 pyaudio 物件
-
-    print("開始錄音...")
 
     # 開啟錄音串流
     stream = p.open(format=sample_format, channels=channels, rate=fs, frames_per_buffer=chunk, input=True)
@@ -84,7 +67,7 @@ def record():
     stream.close()  # 關閉串流
     p.terminate()
 
-    print('錄音結束...')
+    tk.messagebox.showinfo(title='Finish', message='錄音結束')
 
     wf = wave.open(filename, 'wb')  # 開啟聲音記錄檔
     wf.setnchannels(channels)  # 設定聲道
@@ -103,12 +86,14 @@ class MainWindow(tk.Frame):
         tk.Frame.__init__(self, *args, **kwargs)
         root.title('BirdSound')
         tk.Label(text='Welcome to BirdSound!', fg='#a9b4c2', bg='#eef1ef', width=20, height=1,
-                 font=('times', 24)).place(x=230,
-                                           y=30)
+                 font=('times', 24)).place(x=210,
+                                           y=50)
         tk.Button(root, text='Open file', command=self.show, width=10, height=1, bg='#eef1ef',
-                  font=('times', 8)).place(x=620, y=100)
+                  font=('times', 8)).place(x=650, y=80)
         tk.Button(root, text='Record', command=self.recording, width=10, height=1, bg='#eef1ef',
-                  font=('times', 8)).place(x=120, y=100)
+                  font=('times', 8)).place(x=650, y=30)
+        tk.Button(root, text='Identify', command=self.iden, width=10, height=1, bg='#eef1ef',
+                  font=('times', 8)).place(x=80, y=60)
 
     def recording(self):
         global t
@@ -131,6 +116,22 @@ class MainWindow(tk.Frame):
         file_path = filedialog.askopenfilename()  # 選擇檔案後回傳檔案路徑與名稱
         print(file_path)  # 印出路徑
         trans(file_path)
+
+    def iden(self):
+        CNN_predict, LSTM_predict, img_path1, img_path2 = pred()
+
+        # img1 = Image.open(img_path1)
+        # img2 = Image.open(img_path2)
+        # tk_img1 = ImageTk.PhotoImage(img1)
+        # tk_img2 = ImageTk.PhotoImage(img2)
+        #
+        canvas.delete('all')  # 清空 Canvas 原本內容
+        # canvas.create_image(650, 300, image=tk_img1).pack()
+        # canvas.create_image(100, 300, image=tk_img2).pack()
+        canvas.create_text(450, 200, text='CNN_predict:', font=('Arial', 18))
+        canvas.create_text(555, 200, text=CNN_predict, font=('Arial', 18))
+        canvas.create_text(150, 200, text='LSTM_predict:', font=('Arial', 18))
+        canvas.create_text(265, 200, text=LSTM_predict, font=('Arial', 18))
 
 
 root = tk.Tk()

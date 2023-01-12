@@ -11,6 +11,8 @@ from bs4 import BeautifulSoup
 import os
 import sys
 from tqdm import tqdm
+import numpy as np
+import keras
 
 
 # 音檔轉圖檔
@@ -26,10 +28,15 @@ def cut_and_trans(k, audio, image_path, name_1):
 
     try:
         # 嘗試畫圖並存成png檔
+        save_path = image_path + '/' + name_1 + str(m) + '.png'
+        if os.path.exists(save_path):
+            os.remove(save_path)
+        else:
+            pass
         plt.specgram(data[:, 0], Fs=FS)
         plt.ylabel('Frequency [Hz]')
         plt.xlabel('Time')
-        plt.savefig(image_path + '/' + name_1 + str(m) + '.png')
+        plt.savefig(save_path)
         m += 1
 
     except IndexError:
@@ -198,16 +205,49 @@ def page(i, name, name1, audio_path):
         pass
 
 
+def pred():
+    path1 = './data/images/test/test1.png'
+    path2 = './data/images/test/test2.png'
+
+    img = im_read(path1)
+    crop_im = crop_img(img)  # 切割圖片至指定的尺寸
+    gray = gray_img(crop_im)  # 將圖片灰階化
+    image = cv2.GaussianBlur(white_noise(gray, -5, 5), (3, 3), 15)  # 將圖片做高斯模糊
+    img_data = cv2.resize(image, (45, 21), interpolation=cv2.INTER_CUBIC)  # 將圖片轉至指定的尺寸
+    cv2.imwrite(path2, img_data)
+
+    img_data = cv2.imread(path2, 0)
+    img_data = np.expand_dims(img_data, axis=0)
+
+    model1 = keras.models.load_model('model1.h5')
+    model2 = keras.models.load_model('model2.h5')
+
+    result1 = model1.predict(img_data)
+    result2 = model2.predict(img_data)
+
+    print(result1, result2)
+
+    CNN_predict, LSTM_predict, img_path1, img_path2 = find_the_kind(result1, result2)
+
+    return CNN_predict, LSTM_predict, img_path1, img_path2
+
+
 def find_the_kind(result1, result2):
     name = ['Anas', 'Hirun', 'Motac', 'Passer']
+    CNN_result = []
+    LSTM_result = []
 
-    result1 = result1.tolist()
-    result2 = result2.tolist()
+    path = ['./data/bird_picture/Anas-platyrhynchos.jpg', './data/bird_picture/Hirundo-rustica.jpg',
+                 './data/bird_picture/Motacilla-alba.jpg', './data/bird_picture/Passer-domesticus.jpg'
+                 ]
+    for i in range(0, 4):
+        CNN_result.append(int(result1[0][i]))
+        LSTM_result.append(float(result2[0][i]))
 
-    final1 = max(result1[0])
-    final2 = max(result1[0])
+    final1 = np.max(CNN_result)
+    final2 = np.max(LSTM_result)
 
-    count1 = result1[0].index(final1)
-    count2 = result2[0].index(final2)
+    count1 = CNN_result.index(final1)
+    count2 = LSTM_result.index(final2)
 
-    return name[count1], name[count2]
+    return name[count1], name[count2], path[count1], path[count2]
