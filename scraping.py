@@ -8,35 +8,10 @@ from library import *
 # 設定路徑與預設值
 
 path = './data/鳥類.txt'
->>>>>>> develop
 
 name1 = []
 name2 = []
 
-<<<<<<< HEAD
-path = './data/鳥類.txt'
-
-with open(path, 'r', encoding='utf-8') as f:
-    for line in f.readlines():
-        s = line.split(' ')
-        name1.append(s[0])
-        name2.append(s[1])
-
-for i in range(0, 4):
-    name_1 = str(name1[i])
-    path1 = './data/audio/' + name_1 + '/'
-    if os.path.exists(path1):
-        pass
-    else:
-        os.mkdir(path1)
-    name_2 = name2[i].replace("\n", "")
-    print(name_2)
-    try:
-        page(i, name_2)
-        print(str(name_2) + "下載成功")
-    except IndexError:
-        print('下載完成')
-=======
 # 開啟鳥類txt檔
 with open(path, 'r', encoding='utf-8') as f:
     # 逐行讀取txt檔
@@ -71,4 +46,3 @@ for i in range(0, 4):
     except IndexError:
         print('下載完成')
         # 如果index裡沒有資料了，就代表載完了全部的音檔
->>>>>>> develop
