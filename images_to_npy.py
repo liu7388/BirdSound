@@ -73,10 +73,10 @@ def image_to_npy(dir_path, testScale):
     print(len(X_train), len(y_train), len(X_test), len(y_test))
 
     # 保存文件
-    np.save('./data/label1/train-images-idx3.npy', X_train)
-    np.save('./data/label1/train-labels-idx1.npy', y_train)
-    np.save('./data/label1/t10k-images-idx3.npy', X_test)
-    np.save('./data/label1/t10k-labels-idx1.npy', y_test)
+    np.save('./data/label/train-images-idx3.npy', X_train)
+    np.save('./data/label/train-labels-idx1.npy', y_train)
+    np.save('./data/label/t10k-images-idx3.npy', X_test)
+    np.save('./data/label/t10k-labels-idx1.npy', y_test)
 
     return training_label  # 回傳training_label
 
