@@ -1,6 +1,12 @@
 venv
 .idea
+bird_picture
 *.exe
-data/*
+*.png
 *.mp3
+*.exe
+*.wav
+*.jpg
 testing.py
+*.zip
+>>>>>>> develop
