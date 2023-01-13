@@ -24,12 +24,12 @@ def image_label(imageLabel, training_label, i):
 
 # 確認在label中是否存有npy檔
 def check():
-    path = './data/label1/'
+    path = './data/label/'
 
     for img_file in os.listdir(path):
         if '.npy' in img_file:
             # 若label中有npy檔則刪除，保證資料不會與前次執行之殘餘資料混淆
-            os.remove('./data/label1/' + img_file)
+            os.remove('./data/label/' + img_file)
         else:
             pass
 
