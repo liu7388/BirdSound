@@ -23,6 +23,9 @@ def trans(file_path):
         if '.png' in file_path:
             img_data = im_read(file_path)
             cv2.imwrite('./data/images/test/test1.png', img_data)
+        elif '.jpg' in file_path:
+            img_data = im_read(file_path)
+            cv2.imwrite('./data/images/test/test1.png', img_data)
         else:
             path = './data/images/test'
             count, audio = calc(1, 'test', file_path, path)
